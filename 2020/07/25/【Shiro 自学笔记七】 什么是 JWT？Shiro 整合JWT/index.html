@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"ziziyyy.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="JWT 全称 JSON Web Token，是一种用于通信双方之间传递安全信息的简洁的、URL安全的表述性声明规范，经常用在跨域身份验证。本期内容与 Shiro 无关，不过在下一期我们就会整合 Shiro 和 JWT。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Shiro 自学笔记七】 什么是 JWT？使用 JWT 实现认证">
+<meta property="og:url" content="http://ziziyyy.github.io/2020/07/25/%E3%80%90Shiro%20%E8%87%AA%E5%AD%A6%E7%AC%94%E8%AE%B0%E4%B8%83%E3%80%91%20%E4%BB%80%E4%B9%88%E6%98%AF%20JWT%EF%BC%9FShiro%20%E6%95%B4%E5%90%88JWT/index.html">
+<meta property="og:site_name" content="没有人比我更不懂写代码-zzy的垃圾生产站">
+<meta property="og:description" content="JWT 全称 JSON Web Token，是一种用于通信双方之间传递安全信息的简洁的、URL安全的表述性声明规范，经常用在跨域身份验证。本期内容与 Shiro 无关，不过在下一期我们就会整合 Shiro 和 JWT。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="c:%5CUsers%5Ca1311%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200725150524376.png">
+<meta property="og:image" content="https://i.loli.net/2020/07/25/KsVvJ1Cno5Iir94.png">
+<meta property="og:image" content="https://i.loli.net/2020/07/25/mpIHoaDr9u7zhyf.png">
+<meta property="article:published_time" content="2020-07-25T06:41:51.000Z">
+<meta property="article:modified_time" content="2020-07-25T07:39:32.000Z">
+<meta property="article:author" content="ziziyyy">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="Shiro">
+<meta property="article:tag" content="JWT">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="c:%5CUsers%5Ca1311%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200725150524376.png">
+
+<link rel="canonical" href="http://ziziyyy.github.io/2020/07/25/%E3%80%90Shiro%20%E8%87%AA%E5%AD%A6%E7%AC%94%E8%AE%B0%E4%B8%83%E3%80%91%20%E4%BB%80%E4%B9%88%E6%98%AF%20JWT%EF%BC%9FShiro%20%E6%95%B4%E5%90%88JWT/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>【Shiro 自学笔记七】 什么是 JWT？使用 JWT 实现认证 | 没有人比我更不懂写代码-zzy的垃圾生产站</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">没有人比我更不懂写代码-zzy的垃圾生产站</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">周姐姐果然很喜欢猫</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://ziziyyy.github.io/2020/07/25/%E3%80%90Shiro%20%E8%87%AA%E5%AD%A6%E7%AC%94%E8%AE%B0%E4%B8%83%E3%80%91%20%E4%BB%80%E4%B9%88%E6%98%AF%20JWT%EF%BC%9FShiro%20%E6%95%B4%E5%90%88JWT/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="ziziyyy">
+      <meta itemprop="description" content="没有人不比我懂写代码">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="没有人比我更不懂写代码-zzy的垃圾生产站">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【Shiro 自学笔记七】 什么是 JWT？使用 JWT 实现认证
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-07-25 14:41:51 / Modified: 15:39:32" itemprop="dateCreated datePublished" datetime="2020-07-25T14:41:51+08:00">2020-07-25</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>JWT 全称 JSON Web Token，是一种用于通信双方之间传递安全信息的简洁的、URL安全的表述性声明规范，经常用在跨域身份验证。本期内容与 Shiro 无关，不过在下一期我们就会整合 Shiro 和 JWT。</p>
+<a id="more"></a>
+
+<h1 id="什么是-JWT"><a href="#什么是-JWT" class="headerlink" title="什么是 JWT"></a>什么是 JWT</h1><p>JWT 是一种可以携带信息的加密串，加密时可以将各种信息，如用户、作者、过期时间等，并设定签名(密钥)。</p>
+<p>解密时，只要提供签名(密钥)，token 就可以被解析得到信息，从而实现一种相对安全的前后端交互方式。</p>
+<h2 id="Session-的缺陷"><a href="#Session-的缺陷" class="headerlink" title="Session 的缺陷"></a>Session 的缺陷</h2><p>传统的认证采用 Session 的形式，用户登录成功后，就将用户信息以 Session 形式存入服务器内存，并为用户发送 Cookie 保存登录信息。下次用户登录时，通过检验 Cookie 和 Session 信息，判断认证是否有效。</p>
+<ul>
+<li>浪费资源，Session 保存在服务器内存中，开销很大</li>
+<li>因为是基于 Cookie 来进行用户识别的,  Cookie 如果被截获，用户就会很容易受到跨站请求伪造的攻击</li>
+<li>由于 Session 存在内存中，如果是分布式应用，服务器之间共享内存，不利于应用扩展</li>
+</ul>
+<h2 id="JWT-的结构"><a href="#JWT-的结构" class="headerlink" title="JWT  的结构"></a>JWT  的结构</h2><p>一个生成的 token 如下：eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJrb29yeWUiLCJzdWIiOiJzaGlyb19kZW1vIiwiYXVkIjoia29vcnllIiwiaWF0IjoxNTk1NjYwNTQxLCJleHAiOjE1OTU2NjQxNDF9.EMq7pVog37X3Un0FVgx2qP8sULpd5haXvdU1qvzKZYo</p>
+<p>token 分为3部分，用 <code>.</code> 分割：</p>
+<ul>
+<li>第一部分  头部信息</li>
+<li>第二部分  载荷信息</li>
+<li>第三部分  签名信息</li>
+</ul>
+<p>JWT 官网提供了清晰的例子，头部包含加密算法等信息，中间包含我们传入的信息，尾部则包含密钥、用于验证：</p>
+<p><img src="C:%5CUsers%5Ca1311%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200725150524376.png" alt=""></p>
+<h2 id="JWT-的生成和解析"><a href="#JWT-的生成和解析" class="headerlink" title="JWT 的生成和解析"></a>JWT 的生成和解析</h2><p>一个标准的 JWT 应该具有的信息：</p>
+<ul>
+<li>iss: jwt 签发者</li>
+<li>sub: jwt 所面向的用户</li>
+<li>aud: 接收 jwt 的一方</li>
+<li>exp: jwt 的过期时间，这个过期时间必须要大于签发时间</li>
+<li>nbf: 定义在什么时间之前，该 jwt 都是不可用的</li>
+<li>iat: jwt 的签发时间</li>
+<li>jti: jwt 的唯一身份标识，主要用来作为一次性 token,从而回避重放攻击</li>
+</ul>
+<h2 id="导入依赖"><a href="#导入依赖" class="headerlink" title="导入依赖"></a>导入依赖</h2><p>导入 jjwt 包：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- JWT --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.jsonwebtoken<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jjwt<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>0.9.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="编写工具类"><a href="#编写工具类" class="headerlink" title="编写工具类"></a>编写工具类</h2><p>笔者此处将一些固定的信息，如签发者、主题、签名等以常量形式存储。</p>
+<p>生成 token 时，需要调用 Jwts.builder 存入信息，然后使用 compact 得到 token 字符串。</p>
+<p>解析token 时，调用 Jwts.parser，传入签名即可。</p>
+<p>例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> org.koorye.util;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> io.jsonwebtoken.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.Date;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JwtUtil</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String ISSUER = <span class="string">"koorye"</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String SUBJECT = <span class="string">"shiro_demo"</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String SIGN = <span class="string">"koorye_love_jwt"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getToken</span><span class="params">(String username, <span class="keyword">int</span> expireTime)</span> </span>&#123;</span><br><span class="line">        Date currentTime = <span class="keyword">new</span> Date();</span><br><span class="line"></span><br><span class="line">        JwtBuilder jwtBuilder = Jwts.builder()</span><br><span class="line">                .setIssuer(ISSUER)</span><br><span class="line">                .setSubject(SUBJECT)</span><br><span class="line">                .setAudience(username)</span><br><span class="line">                .setIssuedAt(currentTime)</span><br><span class="line">                .setExpiration(<span class="keyword">new</span> Date(System.currentTimeMillis() + expireTime * <span class="number">1000</span>))</span><br><span class="line">                .signWith(SignatureAlgorithm.HS256, SIGN);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> jwtBuilder.compact();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Claims <span class="title">parseToken</span><span class="params">(String token)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> Jwts.parser().setSigningKey(SIGN).parseClaimsJws(token).getBody();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>第二个参数是过期时间(单位秒)：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testToken</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    String token = JwtUtil.getToken(<span class="string">"koorye"</span>, <span class="number">60</span> * <span class="number">60</span>);</span><br><span class="line">    System.out.println(token);</span><br><span class="line">    System.out.println(<span class="string">"======================="</span>);</span><br><span class="line">    Claims claims = JwtUtil.parseToken(token);</span><br><span class="line">    System.out.println(<span class="string">"Audience: "</span> + claims.getAudience());</span><br><span class="line">    System.out.println(<span class="string">"Subject: "</span> + claims.getSubject());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJrb29yeWUiLCJzdWIiOiJzaGlyb19kZW1vIiwiYXVkIjoia29vcnllIiwiaWF0IjoxNTk1NjYwNTQxLCJleHAiOjE1OTU2NjQxNDF9.EMq7pVog37X3Un0FVgx2qP8sULpd5haXvdU1qvzKZYo</span><br><span class="line">=======================</span><br><span class="line">Audience: koorye</span><br><span class="line">Subject: shiro_demo</span><br></pre></td></tr></table></figure>
+
+<h1 id="基于-JWT-的用户认证"><a href="#基于-JWT-的用户认证" class="headerlink" title="基于 JWT 的用户认证"></a>基于 JWT 的用户认证</h1><h2 id="编写拦截器"><a href="#编写拦截器" class="headerlink" title="编写拦截器"></a>编写拦截器</h2><p>使用原生 JWT 完成认证，我们可以自定义拦截器来实现：</p>
+<ul>
+<li>returnJson  用于返回信息</li>
+<li>preHandle  重写，定义拦截规则</li>
+</ul>
+<p>在拦截器中，我们检测 Header 中是否包含 access_token 信息，如果不包含，说明未登录。</p>
+<p>如果包含：</p>
+<ul>
+<li>如果 token 解析失败，说明 token 错误</li>
+<li>如果 token 解析成功，但是过期异常，说明 token 过期</li>
+</ul>
+<p>都通过则说明 token 可用，返回 true：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JwtInterceptor</span> <span class="keyword">extends</span> <span class="title">HandlerInterceptorAdapter</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">returnJson</span><span class="params">(HttpServletResponse response, String json)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        response.setCharacterEncoding(<span class="string">"UTF-8"</span>);</span><br><span class="line">        response.setContentType(<span class="string">"text/html; charset=utf-8"</span>);</span><br><span class="line">        <span class="keyword">try</span> (PrintWriter writer = response.getWriter()) &#123;</span><br><span class="line">            writer.print(json);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">preHandle</span><span class="params">(HttpServletRequest request, HttpServletResponse response, Object handler)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        String token = request.getHeader(<span class="string">"access_token"</span>);</span><br><span class="line">        <span class="keyword">if</span> (token == <span class="keyword">null</span>) &#123;</span><br><span class="line">            System.out.println(<span class="string">"[ ERROR ] Token is NULL."</span>);</span><br><span class="line"></span><br><span class="line">            Map&lt;String, String&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">            map.put(<span class="string">"ret_code"</span>, <span class="string">"401"</span>);</span><br><span class="line">            map.put(<span class="string">"err_msg"</span>, <span class="string">"Token is NULL."</span>);</span><br><span class="line">            response.setStatus(<span class="number">401</span>);</span><br><span class="line"></span><br><span class="line">            returnJson(response, JSON.toJSONString(map));</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                Claims claims = JwtUtil.parseToken(token);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (MalformedJwtException e) &#123;</span><br><span class="line">                System.out.println(<span class="string">"[ ERROR ] Token is ERROR."</span>);</span><br><span class="line"></span><br><span class="line">                Map&lt;String, String&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">                map.put(<span class="string">"ret_code"</span>, <span class="string">"402"</span>);</span><br><span class="line">                map.put(<span class="string">"err_msg"</span>, <span class="string">"Token is ERROR."</span>);</span><br><span class="line">                response.setStatus(<span class="number">403</span>);</span><br><span class="line">                returnJson(response, JSON.toJSONString(map));</span><br><span class="line"></span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">            &#125; <span class="keyword">catch</span> (ExpiredJwtException e) &#123;</span><br><span class="line">                System.out.println(<span class="string">"[ ERROR ] Token is EXPIRED."</span>);</span><br><span class="line"></span><br><span class="line">                Map&lt;String, String&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">                map.put(<span class="string">"ret_code"</span>, <span class="string">"403"</span>);</span><br><span class="line">                map.put(<span class="string">"err_msg"</span>, <span class="string">"Token is EXPIRED."</span>);</span><br><span class="line">                response.setStatus(<span class="number">403</span>);</span><br><span class="line">                returnJson(response, JSON.toJSONString(map));</span><br><span class="line"></span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="配置拦截规则"><a href="#配置拦截规则" class="headerlink" title="配置拦截规则"></a>配置拦截规则</h2><p>在 Spring Boot 中，我们可以使用配置类的形式实现。</p>
+<p>除了登录和注册，其他请求都需要拦截：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">InterceptorConfig</span> <span class="keyword">extends</span> <span class="title">WebMvcConfigurationSupport</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> JwtInterceptor jwtInterceptor;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">addInterceptors</span><span class="params">(InterceptorRegistry registry)</span> </span>&#123;</span><br><span class="line">        registry.addInterceptor(jwtInterceptor)</span><br><span class="line">                .addPathPatterns(<span class="string">"/api/**"</span>)</span><br><span class="line">                .excludePathPatterns(<span class="string">"/api/login"</span>)</span><br><span class="line">                .excludePathPatterns(<span class="string">"/api/register"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="编写控制器"><a href="#编写控制器" class="headerlink" title="编写控制器"></a>编写控制器</h2><p>主要关注认证成功的部分 <code>isAuthenticated</code>，认证成功时，生成一个 token 传入返回体：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/api/login"</span>)</span><br><span class="line"><span class="keyword">public</span> ResponseEntity&lt;Map&lt;String, String&gt;&gt; login(String username, String password) &#123;</span><br><span class="line">    Subject subject = SecurityUtils.getSubject();</span><br><span class="line">    UsernamePasswordToken token = <span class="keyword">new</span> UsernamePasswordToken(username, password);</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        subject.login(token);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (UnknownAccountException e) &#123;</span><br><span class="line">        Map&lt;String, String&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        map.put(<span class="string">"ret_code"</span>, <span class="string">"401"</span>);</span><br><span class="line">        map.put(<span class="string">"err_msg"</span>, <span class="string">"Username is not EXISTED."</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ResponseEntity&lt;&gt;(map, HttpStatus.BAD_REQUEST);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (AuthenticationException e) &#123;</span><br><span class="line">        Map&lt;String, String&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        map.put(<span class="string">"ret_code"</span>, <span class="string">"402"</span>);</span><br><span class="line">        map.put(<span class="string">"err_msg"</span>, <span class="string">"Password is ERROR."</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ResponseEntity&lt;&gt;(map, HttpStatus.BAD_REQUEST);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (subject.isAuthenticated()) &#123;</span><br><span class="line">        String access_token = JwtUtil.getToken(username, <span class="number">30</span> * <span class="number">60</span>);  <span class="comment">// 设置 30 分钟过期</span></span><br><span class="line">        Map&lt;String, String&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        map.put(<span class="string">"ret_code"</span>, <span class="string">"201"</span>);</span><br><span class="line">        map.put(<span class="string">"access_token"</span>, access_token);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ResponseEntity&lt;&gt;(map, HttpStatus.OK);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        Map&lt;String, String&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        map.put(<span class="string">"ret_code"</span>, <span class="string">"403"</span>);</span><br><span class="line">        map.put(<span class="string">"err_msg"</span>, <span class="string">"Login failed."</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ResponseEntity&lt;&gt;(map, HttpStatus.BAD_REQUEST);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="测试-1"><a href="#测试-1" class="headerlink" title="测试"></a>测试</h2><p>我们使用 postman 测试一下。</p>
+<p>模拟登录：</p>
+<p><img src="https://i.loli.net/2020/07/25/KsVvJ1Cno5Iir94.png" alt="image-20200725152118161"></p>
+<p>返回体：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"access_token"</span>: <span class="string">"eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJrb29yeWUiLCJzdWIiOiJzaGlyb19kZW1vIiwiYXVkIjoia29vcnllIiwiaWF0IjoxNTk1NjYxNzgyLCJleHAiOjE1OTU2NjM1ODJ9.AqhHVRw7FiOMv3y79XAelkVLgfeQzrmCmqYYPg1ouOY"</span>,</span><br><span class="line">    <span class="attr">"ret_code"</span>: <span class="string">"201"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>模拟访问页面，访问时提供 access_token：</p>
+<p><img src="https://i.loli.net/2020/07/25/mpIHoaDr9u7zhyf.png" alt="image-20200725152351275"></p>
+<p>返回体：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">You are an admin.</span><br></pre></td></tr></table></figure>
+
+<p>如果 token 被修改：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="attr">"err_msg"</span>:<span class="string">"Token is ERROR."</span>,<span class="attr">"ret_code"</span>:<span class="string">"402"</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果 token 过期：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="attr">"err_msg"</span>:<span class="string">"Token is EXPIRED."</span>,<span class="attr">"ret_code"</span>:<span class="string">"403"</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="主流的双-token-认证方案"><a href="#主流的双-token-认证方案" class="headerlink" title="主流的双 token 认证方案"></a>主流的双 token 认证方案</h1><p>目前的主流方案是使用双 token 认证。</p>
+<p>用户登录成功后，服务端给用户传递两个 token：</p>
+<ul>
+<li>access_token  认证用 token，存储主体信息，过期时间较短(如 30 分钟)</li>
+<li>refresh_token  刷新用 token，过期时间较长(如一星期)</li>
+</ul>
+<p>用户登录时，首先发送 access_token，如果请求成功，则放行。</p>
+<p>如果请求失败，提供 access_token 过期，则发送 refresh_token：</p>
+<ul>
+<li>如果 refresh_token 没过期，则给用户传递一个新的 access_token 和 refresh_token</li>
+<li>如果 refresh_token 过期，则不放行</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Java/" rel="tag"># Java</a>
+              <a href="/tags/Shiro/" rel="tag"># Shiro</a>
+              <a href="/tags/JWT/" rel="tag"># JWT</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/07/24/%E3%80%90Shiro%20%E8%87%AA%E5%AD%A6%E7%AC%94%E8%AE%B0%E5%85%AD%E3%80%91Shiro%20%E7%9A%84%E9%BB%98%E8%AE%A4%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6%E5%92%8C%20Redis%20%E5%AE%9E%E7%8E%B0%E7%BC%93%E5%AD%98/" rel="prev" title="【Shiro 自学笔记六】Shiro 的默认缓存机制和 Redis 实现缓存">
+      <i class="fa fa-chevron-left"></i> 【Shiro 自学笔记六】Shiro 的默认缓存机制和 Redis 实现缓存
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/07/25/%E3%80%90Shiro%20%E8%87%AA%E5%AD%A6%E7%AC%94%E8%AE%B0%E5%85%AB%E3%80%91Spring%20Boot%20%E7%8E%AF%E5%A2%83%E4%B8%8B%20Shiro%20%E6%95%B4%E5%90%88%20JWT/" rel="next" title="【Shiro 自学笔记八】Spring Boot 环境下 Shiro 整合 JWT">
+      【Shiro 自学笔记八】Spring Boot 环境下 Shiro 整合 JWT <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#什么是-JWT"><span class="nav-number">1.</span> <span class="nav-text">什么是 JWT</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Session-的缺陷"><span class="nav-number">1.1.</span> <span class="nav-text">Session 的缺陷</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JWT-的结构"><span class="nav-number">1.2.</span> <span class="nav-text">JWT  的结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JWT-的生成和解析"><span class="nav-number">1.3.</span> <span class="nav-text">JWT 的生成和解析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#导入依赖"><span class="nav-number">1.4.</span> <span class="nav-text">导入依赖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编写工具类"><span class="nav-number">1.5.</span> <span class="nav-text">编写工具类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试"><span class="nav-number">1.6.</span> <span class="nav-text">测试</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#基于-JWT-的用户认证"><span class="nav-number">2.</span> <span class="nav-text">基于 JWT 的用户认证</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#编写拦截器"><span class="nav-number">2.1.</span> <span class="nav-text">编写拦截器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置拦截规则"><span class="nav-number">2.2.</span> <span class="nav-text">配置拦截规则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编写控制器"><span class="nav-number">2.3.</span> <span class="nav-text">编写控制器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试-1"><span class="nav-number">2.4.</span> <span class="nav-text">测试</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#主流的双-token-认证方案"><span class="nav-number">3.</span> <span class="nav-text">主流的双 token 认证方案</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">ziziyyy</p>
+  <div class="site-description" itemprop="description">没有人不比我懂写代码</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">59</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">31</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ziziyyy</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/tororo.model.json"},"display":{"position":"right","width":200,"height":400},"mobile":{"show":true},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
