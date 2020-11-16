@@ -20,22 +20,20 @@
     var CONFIG = {"hostname":"ziziyyy.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="Redis（Remote Dictionary Server )，即远程字典服务，是一个开源的使用ANSI C语言编写、支持网络、可基于内存亦可持久化的日志型、Key-Value数据库，并提供多种语言的API。从2010年3月15日起，Redis的开发工作由VMware主持。从2013年5月开始，Redis的开发由Pivotal赞助。 ——  摘自百度百科">
+  <meta name="description" content="注意事项:Latex中换行换行不能实现换行的作用,需要空一行  我要写一篇文档  文档里有很多东西,比如说公式,表格,图片,我需要在这里说一下  说的方式就是用“宏包”,加了宏包才能够写公式做表格.放图片  *所以代码就是\usepackage{第一个宏包,第二个宏包,…}  比如说常用的有 mathtools, amsmath, graphicx, array 之类的. 写出来就是\usepa">
 <meta property="og:type" content="article">
-<meta property="og:title" content="【Redis自学笔记一】什么是NoSQL？Docker启动Redis">
-<meta property="og:url" content="http://ziziyyy.github.io/2020/07/20/%E3%80%90Redis%E8%87%AA%E5%AD%A6%E7%AC%94%E8%AE%B0%E4%B8%80%E3%80%91%E4%BB%80%E4%B9%88%E6%98%AFNoSQL%EF%BC%9FDocker%E5%90%AF%E5%8A%A8Redis/index.html">
+<meta property="og:title" content="【Latex论文写作速成】文字图表公式全讲解">
+<meta property="og:url" content="http://ziziyyy.github.io/2020/11/15/%E3%80%90Latex%E8%AE%BA%E6%96%87%E5%86%99%E4%BD%9C%E9%80%9F%E6%88%90%E3%80%91%20%E6%96%87%E5%AD%97%E5%9B%BE%E8%A1%A8%E5%85%AC%E5%BC%8F%E5%85%A8%E8%AE%B2%E8%A7%A3/index.html">
 <meta property="og:site_name" content="没有人比我更不懂写代码-zzy的垃圾生产站">
-<meta property="og:description" content="Redis（Remote Dictionary Server )，即远程字典服务，是一个开源的使用ANSI C语言编写、支持网络、可基于内存亦可持久化的日志型、Key-Value数据库，并提供多种语言的API。从2010年3月15日起，Redis的开发工作由VMware主持。从2013年5月开始，Redis的开发由Pivotal赞助。 ——  摘自百度百科">
+<meta property="og:description" content="注意事项:Latex中换行换行不能实现换行的作用,需要空一行  我要写一篇文档  文档里有很多东西,比如说公式,表格,图片,我需要在这里说一下  说的方式就是用“宏包”,加了宏包才能够写公式做表格.放图片  *所以代码就是\usepackage{第一个宏包,第二个宏包,…}  比如说常用的有 mathtools, amsmath, graphicx, array 之类的. 写出来就是\usepa">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-07-19T18:47:30.000Z">
-<meta property="article:modified_time" content="2020-07-20T14:44:58.000Z">
+<meta property="article:published_time" content="2020-11-14T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-11-16T04:49:14.873Z">
 <meta property="article:author" content="ziziyyy">
-<meta property="article:tag" content="Java">
-<meta property="article:tag" content="Redis">
-<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="Latex">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://ziziyyy.github.io/2020/07/20/%E3%80%90Redis%E8%87%AA%E5%AD%A6%E7%AC%94%E8%AE%B0%E4%B8%80%E3%80%91%E4%BB%80%E4%B9%88%E6%98%AFNoSQL%EF%BC%9FDocker%E5%90%AF%E5%8A%A8Redis/">
+<link rel="canonical" href="http://ziziyyy.github.io/2020/11/15/%E3%80%90Latex%E8%AE%BA%E6%96%87%E5%86%99%E4%BD%9C%E9%80%9F%E6%88%90%E3%80%91%20%E6%96%87%E5%AD%97%E5%9B%BE%E8%A1%A8%E5%85%AC%E5%BC%8F%E5%85%A8%E8%AE%B2%E8%A7%A3/">
 
 
 <script id="page-configurations">
@@ -48,7 +46,7 @@
   };
 </script>
 
-  <title>【Redis自学笔记一】什么是NoSQL？Docker启动Redis | 没有人比我更不懂写代码-zzy的垃圾生产站</title>
+  <title>【Latex论文写作速成】文字图表公式全讲解 | 没有人比我更不懂写代码-zzy的垃圾生产站</title>
   
 
 
@@ -154,7 +152,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://ziziyyy.github.io/2020/07/20/%E3%80%90Redis%E8%87%AA%E5%AD%A6%E7%AC%94%E8%AE%B0%E4%B8%80%E3%80%91%E4%BB%80%E4%B9%88%E6%98%AFNoSQL%EF%BC%9FDocker%E5%90%AF%E5%8A%A8Redis/">
+    <link itemprop="mainEntityOfPage" href="http://ziziyyy.github.io/2020/11/15/%E3%80%90Latex%E8%AE%BA%E6%96%87%E5%86%99%E4%BD%9C%E9%80%9F%E6%88%90%E3%80%91%20%E6%96%87%E5%AD%97%E5%9B%BE%E8%A1%A8%E5%85%AC%E5%BC%8F%E5%85%A8%E8%AE%B2%E8%A7%A3/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -167,7 +165,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          【Redis自学笔记一】什么是NoSQL？Docker启动Redis
+          【Latex论文写作速成】文字图表公式全讲解
         </h1>
 
         <div class="post-meta">
@@ -176,19 +174,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-07-20 02:47:30 / Modified: 22:44:58" itemprop="dateCreated datePublished" datetime="2020-07-20T02:47:30+08:00">2020-07-20</time>
+              <time title="Created: 2020-11-15 00:00:00" itemprop="dateCreated datePublished" datetime="2020-11-15T00:00:00+08:00">2020-11-15</time>
             </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
                 </span>
-            </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-11-16 12:49:14" itemprop="dateModified" datetime="2020-11-16T12:49:14+08:00">2020-11-16</time>
+              </span>
 
           
 
@@ -201,78 +196,82 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <blockquote>
-<p>Redis（Remote Dictionary Server )，即远程字典服务，是一个开源的使用ANSI C语言编写、支持网络、可基于内存亦可持久化的日志型、Key-Value数据库，并提供多种语言的API。从2010年3月15日起，Redis的开发工作由VMware主持。从2013年5月开始，Redis的开发由Pivotal赞助。</p>
-<p>——  摘自百度百科</p>
-</blockquote>
-<a id="more"></a>
-
-<h1 id="什么是NoSQL"><a href="#什么是NoSQL" class="headerlink" title="什么是NoSQL"></a>什么是NoSQL</h1><p>NoSQL，泛指非关系型的数据库。</p>
-<p>NoSQL = Not Only SQL，即“不仅仅是SQL”。区别于关系型数据库，这种新型数据库的出现是一场数据库的革命运动。</p>
-<p>NoSQL不再用传统的表形式存储数据，数据之间的关系不再那么密切，这使得NoSQL具有非常强的灵活性和可扩展性。</p>
-<p>NoSQL具有以下优点：</p>
-<ul>
-<li><strong>易扩展</strong>  数据之间的无关系在架构层面带来了可扩展的能力</li>
-<li><strong>高性能</strong>  得益于无关系性，NoSQL数据库都具有非常高的读写性能</li>
-<li><strong>灵活的数据模式</strong>  NoSQL无须事先进行表设计、建立字段，随时可以存储自定义的数据格式、自由的进行CRUD操作</li>
-<li><strong>高可用</strong>  NoSQL在不太影响性能的情况下，就可以实现高可用的架构</li>
+        <ul>
+<li>注意事项:Latex中换行换行不能实现换行的作用,需要空一行</li>
 </ul>
-<h2 id="NoSQL的类型"><a href="#NoSQL的类型" class="headerlink" title="NoSQL的类型"></a>NoSQL的类型</h2><hr>
-<table>
-<thead>
-<tr>
-<th>分类</th>
-<th>举例</th>
-<th>应用场景</th>
-<th>数据模型</th>
-<th>优点</th>
-<th>缺点</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>键值对</td>
-<td>Redis, Oracle BDB</td>
-<td>缓存、高访问负载</td>
-<td>Key-Value键值对</td>
-<td>速度快</td>
-<td>数据无结构化</td>
-</tr>
-<tr>
-<td>列存储</td>
-<td>Cassandra, HBase</td>
-<td>分布式文件系统</td>
-<td>列簇</td>
-<td>速度快，可扩展性强</td>
-<td>功能相对局限</td>
-</tr>
-<tr>
-<td>文档</td>
-<td>CouchDB, MongoDB</td>
-<td>Web应用</td>
-<td>Key-Value键值对，Value是结构化的</td>
-<td>数据结构要求不严格，结构可变</td>
-<td>性能不高，却反统一的查询语法</td>
-</tr>
-<tr>
-<td>图形</td>
-<td>Neo4j, InfoGrid</td>
-<td>社交网络、推荐系统</td>
-<td>图</td>
-<td>可以使用图结构相关算法</td>
-<td>很多时候需要对整个图做计算才能得出需要的信息，不容易做分布式的集群</td>
-</tr>
-</tbody></table>
-<h1 id="Ubuntu安装Redis"><a href="#Ubuntu安装Redis" class="headerlink" title="Ubuntu安装Redis"></a>Ubuntu安装Redis</h1><p>Ubuntu的安装非常简单：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install redis  # apt安装redis</span><br><span class="line">sudo service redis-server start  # 启动服务端</span><br><span class="line">redis-cli  # 进入客户端</span><br></pre></td></tr></table></figure>
+<p><strong>我要写一篇文档</strong></p>
+<ul>
+<li>文档里有很多东西,比如说公式,表格,图片,我需要在这里说一下</li>
+</ul>
+<p>说的方式就是用“宏包”,加了宏包才能够写公式做表格.放图片</p>
+<ul>
+<li>*所以代码就是<code>\usepackage</code>{第一个宏包,第二个宏包,…}</li>
+</ul>
+<p>比如说常用的有 mathtools, amsmath, graphicx, array 之类的.</p>
+<p>写出来就是<code>\usepackage{mathtools,amsmath,graphicx,array}</code></p>
+<p><strong>我正在写一篇文章</strong></p>
+<p>首先要说明你在哪里写不然就和上面的内容混在一起了.</p>
+<p>所以我们先建立一个”文档环境“,这个环境里面只来放文档内容.什么宏包和文档类型都在这个外面</p>
+<p>环境的建立方式是:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">\begin&#123;环境名字&#125;</span><br><span class="line">你想在这个环境里写的内容</span><br><span class="line">\end&#123;环境名字&#125;</span><br></pre></td></tr></table></figure>
 
-<h1 id="Docker安装Redis"><a href="#Docker安装Redis" class="headerlink" title="Docker安装Redis"></a>Docker安装Redis</h1><p>Docker安装也很简单，不过需要注意一个细节，镜像本身并不会自带配置文件。</p>
-<p>因此我们先到官网下载配置文件：<a href="http://download.redis.io/redis-stable/redis.conf" target="_blank" rel="noopener">http://download.redis.io/redis-stable/redis.conf</a></p>
-<p>下载完之后，放到本地的目录里。这里笔者在家目录下创建docker/redis目录：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd  # 默认切换到家目录</span><br><span class="line">mkdir docker</span><br><span class="line">cd docker</span><br><span class="line">mkdir redis</span><br></pre></td></tr></table></figure>
+<p>比如文档环境就是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">\begin&#123;document&#125;</span><br><span class="line">吧啦吧啦吧啦</span><br><span class="line">\end&#123;document&#125;</span><br></pre></td></tr></table></figure>
 
-<p>之后放入配置文件。</p>
-<p>创建容器时采用卷挂载的方式，将配置文件同步到容器中(注意此处用户名是笔者个人的用户名)：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sudo docker run -d \</span><br><span class="line">--name redis \</span><br><span class="line">-p 6379:6379 \</span><br><span class="line">-v /home/koorye/docker/redis/redis.conf:/etc/redis/redis.conf \</span><br><span class="line">-v /home/koorye/docker/redis/data:/data \</span><br><span class="line">redis \</span><br><span class="line">redis-server /etc/redis/redis.conf</span><br></pre></td></tr></table></figure>
+<p>综合一下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">documentclass[UTF8]&#123;ctexart&#125;%我想写一篇中文文章</span><br><span class="line">\usepackage&#123;&#x2F;mathtools,amsmath&#125;%只写文字的话可以不用这些宏包</span><br><span class="line">想写的内容\end&#123;document&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>开始变成PDF文档-好看的格式</strong></p>
+<p>在你这个编辑器里面找“编译”这个按钮,把tex文件里面写的代码全部整合翻译成好看的pdf文档,</p>
+<p>如果不知道在哪里看(或者自己没有跳出来pdf,在编译器里面找“查看”按钮,点一下就行了)</p>
+<p>或者进去保存这个tex文件那个目录里面,里面有我pdf的document.</p>
+<p><strong>文章标题与作者、日期</strong>                         <strong>摘要环境:</strong></p>
+<p>\title{标题名}                                         \begin{abstract}</p>
+<p>\author{作者名}                                    摘要内容</p>
+<p>\date{日期}                                            \end{abstract}</p>
+<p>Make title %写完最后要加一个这个,不然就显示不出来!</p>
+<p>​                                                              <strong>列表环境:</strong></p>
+<p><strong>章节的划分:</strong>                                           \begin{enumerate}</p>
+<p>一级章节\section{章节名}                   item第一个东西;</p>
+<p>二级章节\subsection{章节名}            item第二个东西;</p>
+<p>三级章节\subsubsection{章节名}     \end{enemerate}</p>
+<p><strong>添加目录:</strong></p>
+<p><strong>\tableofcontens</strong></p>
+<p><strong>公式的写作:</strong></p>
+<p>\begin{equation}</p>
+<p>公式</p>
+<p>\end{eauation}%这个环境内公式不可以运行</p>
+<p>\begin{align}</p>
+<p>&amp;公式\\</p>
+<p>&amp;公式\\</p>
+<p>\end{equation}这个环境内公式可以并且这样换行 这两个环境都可以让公式自动编号.</p>
+<p>输入公式的话默认是公式单独列一行居中了,但有时候我们只想把它放在同一行.</p>
+<p>那么这就需要用到<strong>行内公式</strong>:</p>
+<p><strong>行内公式环境用:$公式$</strong></p>
+<p>1.例如我们可以知道牛顿的得出了力与物体质量和加速度的关系为$F=ma$</p>
+<p>行内公式可以用:</p>
+<p>2.我们可以知道牛顿的得出了力与物体质量和加速度的关系</p>
+<p>begin{equation}</p>
+<p>为$F=ma$</p>
+<p>\end{equation}</p>
+<p>1和2的效果就是不一样的,2的话会把公式单独放一行中间.1则是和其他字体一样大</p>
+<p><strong>公式命令:</strong></p>
+<p>幂:x^ {任何东西} </p>
+<p>下标:x_{下标}</p>
+<p>分式:\frac{分子}{分母}</p>
+<p>求和号:\sum^{上限}_{起始}</p>
+<p>积分号:\int^{上限}_{下限}</p>
+<p>各种希腊字母:</p>
+<p>\alpha;\beta;delta;Delta;\gama\pi;epsilon;\rho\sigma</p>
+<p>\sin{x};\cos{x};\tan{x};\ln{x};\sqrt{x}</p>
+<p><strong>小练习</strong></p>
+<p>1.力学公式 F=ma</p>
+<p>2.速度公式:v=s/t</p>
+<p>3.指数公式:e^x</p>
+<p>4.二次函数公式:y=ax^2+bx+c</p>
+<p>5.积分</p>
+<p>…..</p>
+<p>可以翻着物理书打公式,多打几次,碰见不知道的就查.然后就熟悉啦!</p>
 
     </div>
 
@@ -282,9 +281,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/Java/" rel="tag"># Java</a>
-              <a href="/tags/Redis/" rel="tag"># Redis</a>
-              <a href="/tags/Linux/" rel="tag"># Linux</a>
+              <a href="/tags/Latex/" rel="tag"># Latex</a>
           </div>
 
         
@@ -293,13 +290,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/07/19/%E3%80%90RabbitMQ%E8%87%AA%E5%AD%A6%E7%AC%94%E8%AE%B0%E5%9B%9B%E3%80%91Docker%E6%90%AD%E5%BB%BARabbitMQ%E9%9B%86%E7%BE%A4%E6%9E%B6%E6%9E%84/" rel="prev" title="【RabbitMQ自学笔记四】Docker搭建RabbitMQ集群架构">
-      <i class="fa fa-chevron-left"></i> 【RabbitMQ自学笔记四】Docker搭建RabbitMQ集群架构
+    <a href="/2020/10/31/%E3%80%90%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%87%AA%E5%AD%A6%E7%AC%94%E8%AE%B06%E3%80%91%E9%AB%98%E6%96%AF%E6%B7%B7%E5%90%88%E8%81%9A%E7%B1%BB/" rel="prev" title="【机器学习自学笔记6】高斯混合模型 (GMM)">
+      <i class="fa fa-chevron-left"></i> 【机器学习自学笔记6】高斯混合模型 (GMM)
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2020/07/20/%E3%80%90Redis%E8%87%AA%E5%AD%A6%E7%AC%94%E8%AE%B0%E4%BA%8C%E3%80%91Redis%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%E5%92%8C%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" rel="next" title="【Redis自学笔记二】Redis的基本命令和数据类型">
-      【Redis自学笔记二】Redis的基本命令和数据类型 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -358,7 +352,6 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#什么是NoSQL"><span class="nav-number">1.</span> <span class="nav-text">什么是NoSQL</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#NoSQL的类型"><span class="nav-number">1.1.</span> <span class="nav-text">NoSQL的类型</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Ubuntu安装Redis"><span class="nav-number">2.</span> <span class="nav-text">Ubuntu安装Redis</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Docker安装Redis"><span class="nav-number">3.</span> <span class="nav-text">Docker安装Redis</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
