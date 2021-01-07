@@ -17,7 +17,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"ziziyyy.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"ziziyyy.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
   <meta name="description" content="没有人不比我懂写代码">
@@ -148,6 +148,182 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://ziziyyy.github.io/2021/01/07/A%20Star%20Search%20Algorithm%E5%8E%9F%E7%90%86%E5%8F%8A%E5%AE%9E%E7%8E%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="ziziyyy">
+      <meta itemprop="description" content="没有人不比我懂写代码">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="没有人比我更不懂写代码-zzy的垃圾生产站">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/01/07/A%20Star%20Search%20Algorithm%E5%8E%9F%E7%90%86%E5%8F%8A%E5%AE%9E%E7%8E%B0/" class="post-title-link" itemprop="url">A Star Search Algorithm原理及实现</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2021-01-07 02:51:26 / Modified: 20:18:33" itemprop="dateCreated datePublished" datetime="2021-01-07T02:51:26+08:00">2021-01-07</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><strong>A* search algorithm</strong></p>
+<p>  与广度优先算法不同的是 A*不会去探索所有的边界方块,而是选择当前“代价”最低的方块进行探索.</p>
+<p>  代价可以被分为:当前(路程)代价,又常被表示称f-cost,你从出发开始走了多少格子当前代价就是几.另一部分代价叫做预估代价,用来表示当前方块到最终方块大概需要走多少步,并不是一个精确的数值,也不代表一定会走这么多步.不过会用这个估计值来指导算法去优先探索更有希望的路径.</p>
+<p>  最常遇到的代价有欧拉距离(Euler distance) (x1-x2)^2+(y1-y2)^2,也就是两点间的直线距离,当然还有更容易计算的曼哈顿距离(Manhattan distance),也就是两点在竖直方向和水平方向的距离总和,|x1-x2|+|y1-y2|=14,曼哈顿距离不用开方,速度快 ,所以我们这里就用它来充当“预估代价,接下来把这两个代价想加,优先挑选优先挑选总代价最低的方块进行探索.会少走不少弯路,也一定是最短路径.</p>
+<p>![image-20201215231948944](/Users/zhiyizhou/Library/Application Support/typora-user-images/image-20201215231948944.png)</p>
+<p>代码实现:</p>
+<p><strong>def a_star_search(graph,start,goal):</strong></p>
+<p>​    <strong>frontier=priorityQueue()</strong></p>
+<p>#frontier中存放了这一论探测过的所有边界方块,另外它是一个优先队列,也就是说他能通过代价自动排序并没次取出代价最低的方块</p>
+<p>​    <strong>frontier.put(start,0)</strong></p>
+<p>#队列里面先存放一个元素,那就是起点</p>
+<p>​    <strong>came_from={}</strong></p>
+<p>#是一个从当前方块到之前方块的映射;代表路径的来向</p>
+<p>​    <strong>cost_so_far={}</strong></p>
+<p>#代表了方块的当前代价</p>
+<p>​    <strong>came_from[start]=None</strong></p>
+<p>​    <strong>cost_so_far[start]=0</strong></p>
+<p>#这两行将起点的came_from置空,并将起点的当前代价设置成0,保存算法数据的有效性 </p>
+<p><strong>while not frontier.empty():</strong></p>
+<p>​    <strong>current=frontier.get ()</strong></p>
+<p>​    </p>
+<p>​    <strong>if current==goal:</strong></p>
+<p>​       <strong>break</strong></p>
+<p>#接下来只要frontier这个队列不为空循环就会一直执行下去;每次循环,算法从优先队列里抽取出代价最低的方块然后检测这个是不是终点块,如果是,算法结束,否则再继续执行下去</p>
+<p><strong>for next in graph.neighbors(burrent):</strong></p>
+<p>#接下来算法会对这个方块上下左右的相邻块,也就是这里next表示的方块进行如下的操作</p>
+<p>​           <strong>new_costs=cost_so_far[current]+graph.cost{current,next}</strong></p>
+<p>#算法会先去计算这个next方块的”新代价“,它等于之前代价加上从current到next的代价,由于用的是网格,所以后部分是一</p>
+<p>​          if next not in cost_so_far or new_cost&lt;cost_so_far[next]</p>
+<p>​               <strong>cost_so_far[next]=new_cost</strong></p>
+<p>​              <strong>priority=new_cost+heuristic(goal,next)</strong></p>
+<p>#只要next块没有被探测过,活着next的当前代价比之前找到的还要低,就把它加入到优先队列里</p>
+<p>并且这里的总代价等于“当前代价”+“预估代价”;预估代价在这里用到的是之前讲道德曼哈顿距离</p>
+<p>​              <strong>frontier.put(next,priority)</strong></p>
+<p>​              <strong>came_from[next]=current</strong></p>
+<p><strong>return came_from,cost_so_far</strong></p>
+<p>如果我们把整张地图抽象成网格的形式,图的结点太多遍历起来会非常低效,于是我们可以把网给地图简化成节点更少的路标形式(Waypoints),需要注意的是这里任意两个节点直接的距离就不再是1了,而是结点之间的实际距离.</p>
+<p>我们还可以用自上而下分层的方式来存储地图,比如四叉树(Quad Tree),又或者像Unity中使用的导航三角网(Navigation Mesh),这样我们的算法速度会得到进一步优化</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://ziziyyy.github.io/2021/01/07/%E3%80%90%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1%E7%AC%94%E8%AE%B0%E3%80%91%E5%9B%9E%E5%BD%92%E5%88%86%E6%9E%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="ziziyyy">
+      <meta itemprop="description" content="没有人不比我懂写代码">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="没有人比我更不懂写代码-zzy的垃圾生产站">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/01/07/%E3%80%90%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1%E7%AC%94%E8%AE%B0%E3%80%91%E5%9B%9E%E5%BD%92%E5%88%86%E6%9E%90/" class="post-title-link" itemprop="url">【数学建模笔记】回归分析</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2021-01-07 02:51:26 / Modified: 20:18:34" itemprop="dateCreated datePublished" datetime="2021-01-07T02:51:26+08:00">2021-01-07</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><strong>【数学建模笔记】回归分析</strong></p>
+<blockquote>
+<p>相关性分析:研究变量X和Y是否相关</p>
+<p><strong>回归分析:研究变量X和Y相关性的分析</strong></p>
+<p>相关性!=因果性相关性分析:研究变量X和Y是否相关</p>
+</blockquote>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/01/07/%E3%80%90%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1%E7%AC%94%E8%AE%B0%E3%80%91%E5%9B%9E%E5%BD%92%E5%88%86%E6%9E%90/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://ziziyyy.github.io/2020/12/16/Regular_expression/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -179,7 +355,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-12-20 19:01:47" itemprop="dateModified" datetime="2020-12-20T19:01:47+08:00">2020-12-20</time>
+                <time title="Modified: 2021-01-07 02:53:09" itemprop="dateModified" datetime="2021-01-07T02:53:09+08:00">2021-01-07</time>
               </span>
 
           
@@ -197,113 +373,14 @@
 <p><big>正则表达式(Regular expression)简介</big></p>
 <p>简单来说正则表达式就是一种<strong>字符串的匹配模式</strong></p>
 <p>基于这个模式可以从一个串或许多串当中匹配或者是捕获需要的字符串</p>
-<p><strong><em>元字符</em></strong></p>
-<table>
-<thead>
-<tr>
-<th align="left">.</th>
-<th align="left">匹配除换行符以外的任意字符</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">*</td>
-<td align="left">重复前面的子表达式0次或多次</td>
-</tr>
-<tr>
-<td align="left">+</td>
-<td align="left">重复前面的子表达式1次或更多次</td>
-</tr>
-<tr>
-<td align="left">?</td>
-<td align="left">重复前面的子表达式0次或一次</td>
-</tr>
-<tr>
-<td align="left">^</td>
-<td align="left">匹配字符串的开始</td>
-</tr>
-<tr>
-<td align="left">$</td>
-<td align="left">匹配字符串的结束</td>
-</tr>
-<tr>
-<td align="left">{n}</td>
-<td align="left">重复n次</td>
-</tr>
-<tr>
-<td align="left">{n,m}</td>
-<td align="left">重复n到m次</td>
-</tr>
-<tr>
-<td align="left">\b</td>
-<td align="left">匹配单词的开始或结尾在单词边界</td>
-</tr>
-<tr>
-<td align="left">\d</td>
-<td align="left">匹配数字,“\D”匹配任意非数字字符</td>
-</tr>
-<tr>
-<td align="left">\s</td>
-<td align="left">匹配任意空白符,“\S”匹配任意非数字字符</td>
-</tr>
-<tr>
-<td align="left">\w</td>
-<td align="left">匹配任意字母、数字或下划线的标示符字符</td>
-</tr>
-<tr>
-<td align="left">[a-z]</td>
-<td align="left">匹配指定范围内的任意字符</td>
-</tr>
-<tr>
-<td align="left">[^a-z]</td>
-<td align="left">匹配任何不在指定范围内的字符</td>
-</tr>
-<tr>
-<td align="left"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left"></td>
-<td align="left"></td>
-</tr>
-</tbody></table>
-<p>正则表达式验证的网站(online regular tester)来举些例子来更好地理解正则表达式的用法</p>
-<p>例:regex101.com(可以进行是否大小写敏感等设置)</p>
-<p>例1:</p>
-<p><strong><em>REGULAR EXPRESSION</em></strong></p>
-<p>hello</p>
-<p><strong><em>TEST STRING</em></strong></p>
-<p>Helllllllllo</p>
-<p>会显示0 match;</p>
-<p>但是把hello 改成 hel+o之后(重复前面的子表达式一次或更多次,见上表)</p>
-<p>就会显示1 match 了</p>
-<p>例2:目的是把所有单词都匹配出来</p>
-<p><strong><em>REGULAR EXPRESSION</em></strong></p>
-<p>[a-zA-Z{1,}] </p>
-<p><strong><em>TEST STRING</em></strong></p>
-<p>I am 1 test sentence.I have 500 books.</p>
-<p>显示7 matches</p>
-<p>例3:把数字匹配出来</p>
-<p><strong><em>REGULAR EXPRESSION</em></strong></p>
-<p>[0-9]{1,}或\d{1,}</p>
-<p><strong><em>TEST STRING</em></strong></p>
-<p>I am 1 test sentence.I have 500 books.</p>
-<p>显示2 matches</p>
-<p>例4:匹配浮点数,(需要把小数点匹配出来)</p>
-<p><strong><em>REGULAR EXPRESSION</em></strong></p>
-<p>\d{1,}.\d{1,}</p>
-<p>1 match</p>
-<p><strong>假如在一封email里要获取IP地址</strong></p>
-<p>只是简单说一下IP地址的获取</p>
-<p>这里不管数字的范围,IP地址是有4个十进制数,每个范围是0-255,中间是用.来分隔的,只是匹配三位长度的数字</p>
-<p><strong><em>REGULAR EXPRESSION</em></strong></p>
-<p>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}</p>
-<p>或</p>
-<p>重复部分较多,可以把他括起来组成一个分组group 重复三次</p>
-<p>(\d{1,3}\.){3}</p>
-<p><strong><em>TEST STRING</em></strong></p>
-<p>192.168.1.32</p>
-<p>1 match</p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/12/16/Regular_expression/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -345,10 +422,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-11-17 21:37:40 / Modified: 21:38:02" itemprop="dateCreated datePublished" datetime="2020-11-17T21:37:40+08:00">2020-11-17</time>
+              <time title="Created: 2020-11-17 21:37:40" itemprop="dateCreated datePublished" datetime="2020-11-17T21:37:40+08:00">2020-11-17</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-01-07 02:54:47" itemprop="dateModified" datetime="2021-01-07T02:54:47+08:00">2021-01-07</time>
+              </span>
 
           
 
@@ -370,11 +453,14 @@
 <h2 id="1-数学归纳法和秃子理论"><a href="#1-数学归纳法和秃子理论" class="headerlink" title="(1)数学归纳法和秃子理论"></a>(1)数学归纳法和秃子理论</h2><p>文学:压死骆驼的最后一根稻草</p>
 <p> 哲学:量变引起质变 </p>
 <p><strong>数学:引入模糊的概念</strong></p>
-<h2 id="2-数学中研究量的划分"><a href="#2-数学中研究量的划分" class="headerlink" title="(2)数学中研究量的划分"></a>(2)数学中研究量的划分</h2><p>$$<br>f(x)=\left{<br>\begin{aligned}<br>确定性:经典数学(几何,代数)、、、、、、、、、、、、、、、、、、、、、、、、<br>\<br>不确定性:1.随机性(概率论、随机过程)\quad 2.灰色(灰色系统)\quad 3.模糊性(模糊数学)\<br>\end{aligned}<br>\right.<br>$$</p>
-<h2 id="3-生活中处处存在模糊性-和确定性相对"><a href="#3-生活中处处存在模糊性-和确定性相对" class="headerlink" title="(3)生活中处处存在模糊性(和确定性相对)"></a>(3)生活中处处存在模糊性(和确定性相对)</h2><p>确定性概念:性别、身高、年龄、体重…</p>
-<p>模糊性概念:厉害、美、丑、年轻…</p>
-<h2 id="4-模糊数学的介绍"><a href="#4-模糊数学的介绍" class="headerlink" title="(4)模糊数学的介绍"></a>(4)模糊数学的介绍</h2><p>模糊数学是研究和处理模糊性现象的一种数学理论和方法.模糊性数学发展的主流是在它的应用方面.由于模糊性概念已经找到了模糊集的描述方式,人们运用概念、评价、推理、决策和控制的过程也可以用模糊性数学的方法来描述.例如模糊聚类分析,模糊模式识别,模糊综合评判和模糊决策、模糊预测等.这些方法构成了一种模糊性系统理论,构成了一种思辨数学的雏形.</p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/11/17/%E6%A8%A1%E7%B3%8A%E6%95%B0%E5%AD%A6-%E6%A6%82%E8%BF%B0/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -860,158 +946,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://ziziyyy.github.io/2020/10/28/%E3%80%90%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%87%AA%E5%AD%A6%E7%AC%94%E8%AE%B02%E3%80%91%E5%86%B3%E7%AD%96%E6%A0%91/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="ziziyyy">
-      <meta itemprop="description" content="没有人不比我懂写代码">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="没有人比我更不懂写代码-zzy的垃圾生产站">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/10/28/%E3%80%90%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%87%AA%E5%AD%A6%E7%AC%94%E8%AE%B02%E3%80%91%E5%86%B3%E7%AD%96%E6%A0%91/" class="post-title-link" itemprop="url">【机器学习自学笔记2】决策树</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-10-28 15:28:02 / Modified: 17:44:28" itemprop="dateCreated datePublished" datetime="2020-10-28T15:28:02+08:00">2020-10-28</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>决策树(Decision Tree）是在已知各种情况发生概率的基础上，通过构成决策树来求取净现值的期望值大于等于零的概率，评价项目风险，判断其可行性的决策分析方法，是直观运用概率分析的一种图解法。由于这种决策分支画成图形很像一棵树的枝干，故称决策树。在机器学习中，决策树是一个预测模型，他代表的是对象属性与对象值之间的一种映射关系。Entropy = 系统的凌乱程度，使用算法ID3, C4.5和C5.0生成树算法使用熵。这一度量是基于信息学理论中熵的概念。</p>
-</blockquote>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/10/28/%E3%80%90%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%87%AA%E5%AD%A6%E7%AC%94%E8%AE%B02%E3%80%91%E5%86%B3%E7%AD%96%E6%A0%91/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://ziziyyy.github.io/2020/10/28/%E3%80%90%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%87%AA%E5%AD%A6%E7%AC%94%E8%AE%B01%E3%80%91%E4%BF%A1%E6%81%AF%E7%86%B5/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="ziziyyy">
-      <meta itemprop="description" content="没有人不比我懂写代码">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="没有人比我更不懂写代码-zzy的垃圾生产站">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/10/28/%E3%80%90%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%87%AA%E5%AD%A6%E7%AC%94%E8%AE%B01%E3%80%91%E4%BF%A1%E6%81%AF%E7%86%B5/" class="post-title-link" itemprop="url">【机器学习自学笔记1】信息熵</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-10-28 13:34:26 / Modified: 15:27:36" itemprop="dateCreated datePublished" datetime="2020-10-28T13:34:26+08:00">2020-10-28</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>一直想记录一下机器学习的笔记，奈何水平不足，不过还是想挑战一下自己。话不多说，下面开始。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/10/28/%E3%80%90%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%87%AA%E5%AD%A6%E7%AC%94%E8%AE%B01%E3%80%91%E4%BF%A1%E6%81%AF%E7%86%B5/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1081,16 +1015,16 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">62</span>
+          <span class="site-state-item-count">63</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-count">33</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>
@@ -1123,7 +1057,7 @@
   </span>
   <span class="author" itemprop="copyrightHolder">ziziyyy</span>
 </div>
-  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
   </div>
 
         
@@ -1149,7 +1083,7 @@
 <script src="/js/motion.js"></script>
 
 
-<script src="/js/schemes/pisces.js"></script>
+<script src="/js/schemes/muse.js"></script>
 
 
 <script src="/js/next-boot.js"></script>
