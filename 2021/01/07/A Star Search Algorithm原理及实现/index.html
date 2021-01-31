@@ -20,15 +20,15 @@
     var CONFIG = {"hostname":"ziziyyy.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="A* search algorithm   与广度优先算法不同的是 A*不会去探索所有的边界方块,而是选择当前“代价”最低的方块进行探索.   代价可以被分为:当前(路程)代价,又常被表示称f-cost,你从出发开始走了多少格子当前代价就是几.另一部分代价叫做预估代价,用来表示当前方块到最终方块大概需要走多少步,并不是一个精确的数值,也不代表一定会走这么多步.不过会用这个估计值来指导算法去优先探索">
+  <meta name="description" content="A* search algorithm   与广度优先算法不同的是 A*不会去探索所有的边界方块,而是选择当前“代价”最低的方块进行探索.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="A Star Search Algorithm原理及实现">
 <meta property="og:url" content="http://ziziyyy.github.io/2021/01/07/A%20Star%20Search%20Algorithm%E5%8E%9F%E7%90%86%E5%8F%8A%E5%AE%9E%E7%8E%B0/index.html">
 <meta property="og:site_name" content="没有人比我更不懂写代码-zzy的垃圾生产站">
-<meta property="og:description" content="A* search algorithm   与广度优先算法不同的是 A*不会去探索所有的边界方块,而是选择当前“代价”最低的方块进行探索.   代价可以被分为:当前(路程)代价,又常被表示称f-cost,你从出发开始走了多少格子当前代价就是几.另一部分代价叫做预估代价,用来表示当前方块到最终方块大概需要走多少步,并不是一个精确的数值,也不代表一定会走这么多步.不过会用这个估计值来指导算法去优先探索">
+<meta property="og:description" content="A* search algorithm   与广度优先算法不同的是 A*不会去探索所有的边界方块,而是选择当前“代价”最低的方块进行探索.">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-01-06T18:51:26.000Z">
-<meta property="article:modified_time" content="2021-01-07T12:18:33.286Z">
+<meta property="article:modified_time" content="2021-01-31T17:45:54.370Z">
 <meta property="article:author" content="ziziyyy">
 <meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary">
@@ -174,10 +174,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2021-01-07 02:51:26 / Modified: 20:18:33" itemprop="dateCreated datePublished" datetime="2021-01-07T02:51:26+08:00">2021-01-07</time>
+              <time title="Created: 2021-01-07 02:51:26" itemprop="dateCreated datePublished" datetime="2021-01-07T02:51:26+08:00">2021-01-07</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-02-01 01:45:54" itemprop="dateModified" datetime="2021-02-01T01:45:54+08:00">2021-02-01</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -201,6 +207,8 @@
       
         <p><strong>A* search algorithm</strong></p>
 <p>  与广度优先算法不同的是 A*不会去探索所有的边界方块,而是选择当前“代价”最低的方块进行探索.</p>
+<a id="more"></a>
+
 <p>  代价可以被分为:当前(路程)代价,又常被表示称f-cost,你从出发开始走了多少格子当前代价就是几.另一部分代价叫做预估代价,用来表示当前方块到最终方块大概需要走多少步,并不是一个精确的数值,也不代表一定会走这么多步.不过会用这个估计值来指导算法去优先探索更有希望的路径.</p>
 <p>  最常遇到的代价有欧拉距离(Euler distance) (x1-x2)^2+(y1-y2)^2,也就是两点间的直线距离,当然还有更容易计算的曼哈顿距离(Manhattan distance),也就是两点在竖直方向和水平方向的距离总和,|x1-x2|+|y1-y2|=14,曼哈顿距离不用开方,速度快 ,所以我们这里就用它来充当“预估代价,接下来把这两个代价想加,优先挑选优先挑选总代价最低的方块进行探索.会少走不少弯路,也一定是最短路径.</p>
 <p>![image-20201215231948944](/Users/zhiyizhou/Library/Application Support/typora-user-images/image-20201215231948944.png)</p>
