@@ -20,19 +20,19 @@
     var CONFIG = {"hostname":"ziziyyy.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="【数学建模笔记】回归分析  相关性分析:研究变量X和Y是否相关 回归分析:研究变量X和Y相关性的分析 相关性!&#x3D;因果性相关性分析:研究变量X和Y是否相关">
+  <meta name="description" content="title: 【数学建模笔记】熵权法categories: 数学建模date: 2021-01-20 12:44:26tags:  数学建模 熵权法  1.什么是熵? 熵的概念来自于热力学,表示不能用来做功的热能,为热能的变化量除以温度所得的商 . 1948年,麦克劳香农将熵的概念引入信息论中,作为信息的一个度量. 在信息论中,信息是系统有序程度的一个度量,熵是系统无序程度的一个度量,二者绝对值相">
 <meta property="og:type" content="article">
-<meta property="og:title" content="【数学建模笔记】回归分析">
-<meta property="og:url" content="http://ziziyyy.github.io/2021/01/07/%E3%80%90%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1%E7%AC%94%E8%AE%B0%E3%80%91%E5%9B%9E%E5%BD%92%E5%88%86%E6%9E%90/index.html">
+<meta property="og:title" content="【数学建模笔记】熵权法">
+<meta property="og:url" content="http://ziziyyy.github.io/2021/02/01/%E3%80%90%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1%E7%AC%94%E8%AE%B0%E3%80%91%E7%86%B5%E6%9D%83%E6%B3%95/index.html">
 <meta property="og:site_name" content="没有人比我更不懂写代码-zzy的垃圾生产站">
-<meta property="og:description" content="【数学建模笔记】回归分析  相关性分析:研究变量X和Y是否相关 回归分析:研究变量X和Y相关性的分析 相关性!&#x3D;因果性相关性分析:研究变量X和Y是否相关">
+<meta property="og:description" content="title: 【数学建模笔记】熵权法categories: 数学建模date: 2021-01-20 12:44:26tags:  数学建模 熵权法  1.什么是熵? 熵的概念来自于热力学,表示不能用来做功的热能,为热能的变化量除以温度所得的商 . 1948年,麦克劳香农将熵的概念引入信息论中,作为信息的一个度量. 在信息论中,信息是系统有序程度的一个度量,熵是系统无序程度的一个度量,二者绝对值相">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2021-01-06T18:51:26.000Z">
-<meta property="article:modified_time" content="2021-01-07T12:18:34.460Z">
+<meta property="article:published_time" content="2021-01-31T17:39:51.024Z">
+<meta property="article:modified_time" content="2021-01-31T17:41:04.393Z">
 <meta property="article:author" content="ziziyyy">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://ziziyyy.github.io/2021/01/07/%E3%80%90%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1%E7%AC%94%E8%AE%B0%E3%80%91%E5%9B%9E%E5%BD%92%E5%88%86%E6%9E%90/">
+<link rel="canonical" href="http://ziziyyy.github.io/2021/02/01/%E3%80%90%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1%E7%AC%94%E8%AE%B0%E3%80%91%E7%86%B5%E6%9D%83%E6%B3%95/">
 
 
 <script id="page-configurations">
@@ -45,7 +45,7 @@
   };
 </script>
 
-  <title>【数学建模笔记】回归分析 | 没有人比我更不懂写代码-zzy的垃圾生产站</title>
+  <title>【数学建模笔记】熵权法 | 没有人比我更不懂写代码-zzy的垃圾生产站</title>
   
 
 
@@ -151,7 +151,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://ziziyyy.github.io/2021/01/07/%E3%80%90%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1%E7%AC%94%E8%AE%B0%E3%80%91%E5%9B%9E%E5%BD%92%E5%88%86%E6%9E%90/">
+    <link itemprop="mainEntityOfPage" href="http://ziziyyy.github.io/2021/02/01/%E3%80%90%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1%E7%AC%94%E8%AE%B0%E3%80%91%E7%86%B5%E6%9D%83%E6%B3%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -164,7 +164,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          【数学建模笔记】回归分析
+          【数学建模笔记】熵权法
         </h1>
 
         <div class="post-meta">
@@ -175,7 +175,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2021-01-07 02:51:26 / Modified: 20:18:34" itemprop="dateCreated datePublished" datetime="2021-01-07T02:51:26+08:00">2021-01-07</time>
+              <time title="Created: 2021-02-01 01:39:51 / Modified: 01:41:04" itemprop="dateCreated datePublished" datetime="2021-02-01T01:39:51+08:00">2021-02-01</time>
             </span>
 
           
@@ -189,63 +189,60 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><strong>【数学建模笔记】回归分析</strong></p>
-<blockquote>
-<p>相关性分析:研究变量X和Y是否相关</p>
-<p><strong>回归分析:研究变量X和Y相关性的分析</strong></p>
-<p>相关性!=因果性相关性分析:研究变量X和Y是否相关</p>
-</blockquote>
+        <p>title: 【数学建模笔记】熵权法<br>categories: 数学建模<br>date: 2021-01-20 12:44:26<br>tags:</p>
+<ul>
+<li>数学建模</li>
+<li>熵权法</li>
+</ul>
+<p>1.什么是熵?</p>
+<p>熵的概念来自于热力学,表示不能用来做功的热能,为热能的变化量除以温度所得的商 .</p>
+<p>1948年,麦克劳香农将熵的概念引入信息论中,作为信息的一个度量.</p>
+<p>在信息论中,信息是系统有序程度的一个度量,熵是系统无序程度的一个度量,二者绝对值相等,方向相反.</p>
+<p>熵是对不确定信息的度量,熵与信息成反比,熵值越小越好</p>
 <a id="more"></a>
 
-<ul>
-<li><strong>回归分析的使命:</strong></li>
-</ul>
-<p>一、识别重要变量</p>
-<p>二、判断相关性的方向</p>
-<p>三、要估计权重(回归系数)</p>
-<ul>
-<li>回归分析的分类</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th align="center">类型</th>
-<th>模型                                            Y的特点                   例子</th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">线性回归</td>
-<td>OLS,GLS(最小二乘)               连续数值型变量            GDP \产量</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">0-1回归</td>
-<td>Logistic回归                             二值变量(0-1)            是否违约</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">定序回归</td>
-<td>Probit定序回归                         定序变量                   每分钟车流量</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">计数回归</td>
-<td>泊松回归(泊松分布)                  计数变量                   等级评定(优良差)</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">生存回归</td>
-<td>Cox等比例风险回归              生存变量(截取数据)      企业\产品的寿命</td>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
+<p>![CD3FEB85-39B0-4A8B-9E51-DEEF3B5FD817](/Users/zhiyizhou/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/2579016304/QQ/Temp.db/3DE2712A-1A93-4704-B339-1F3BA011AEE7.png)</p>
+<p>熵权法是一种可以用于多对象,多指标的综合评价方法.其评价结果主要依据客观资料.几乎不受主观因素的影响,可以很大程度上避免人为因素的干扰.</p>
+<p>一、</p>
+<p>数据标准化(无量纲化)</p>
+<p>首先分别对矩阵中的正向指标和逆向指标分别处理(m个评价对象,n个评价指标):</p>
+<p>![C3B76A9E-2FA1-4482-9BFA-163828761C4B](/Users/zhiyizhou/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/2579016304/QQ/Temp.db/C3B76A9E-2FA1-4482-9BFA-163828761C4B.png)</p>
+<p>然后可以得到一个标准化后的矩阵R:</p>
+<p>![9B1E18C7-6627-400D-88D1-BC4427649D37](/Users/zhiyizhou/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/2579016304/QQ/Temp.db/9B1E18C7-6627-400D-88D1-BC4427649D37.png)</p>
+<p>第j个指标的熵值:</p>
+<p>![3FC72C20-6C4F-4B31-9D6E-592FC64B541F](/Users/zhiyizhou/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/2579016304/QQ/Temp.db/3FC72C20-6C4F-4B31-9D6E-592FC64B541F.png)</p>
+<p>第j个指标熵的权重(熵权)定义为:</p>
+<p>![7B3EC85B-E04C-4B8F-8ADE-B6A860D4174B](/Users/zhiyizhou/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/2579016304/QQ/Temp.db/7B3EC85B-E04C-4B8F-8ADE-B6A860D4174B.png)</p>
+<p>评价指标的熵权的定义:</p>
+<p>指标的熵越大,熵权越小,该指标越不重要.并满足:</p>
+<p>![1E1F8B61-2080-4FC8-9F50-C5B251D63D9A](/Users/zhiyizhou/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/2579016304/QQ/Temp.db/1E1F8B61-2080-4FC8-9F50-C5B251D63D9A.png)</p>
+<p>熵权并非实际意义上的重要性指数,而是各指标在竞争意义上的相对激烈程度系数</p>
+<p> 当评价对象确定后,再根据熵权对评价指标进行调整、增减,以利于作出更精确、可靠的评价.同时也可以利用熵权对某些指标评价值的精度进行调整,必要时重新确定平均值和精度</p>
+<p>二、熵权法的一般步骤</p>
+<p>   1.确定评价对象,建立评价指标体系,构造指标水平矩阵</p>
+<ol start="2">
+<li>对评价矩阵进行标准化处理的矩阵R=(rij)mxn</li>
+<li>计算评价指标的熵Hj:![8F405609-F500-43C8-AE51-0D8A9715AE2C](/Users/zhiyizhou/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/2579016304/QQ/Temp.db/8F405609-F500-43C8-AE51-0D8A9715AE2C.png)</li>
+</ol>
+<p>其中分两种情况:![396C9D7B-4007-433F-A558-E6BE5C1A8AB8](/Users/zhiyizhou/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/2579016304/QQ/Temp.db/396C9D7B-4007-433F-A558-E6BE5C1A8AB8.png)</p>
+<p>4.计算评价指标的熵权:![D8F74A7B-C5D5-40AF-80A5-3B3E302CBAB6](/Users/zhiyizhou/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/2579016304/QQ/Temp.db/D8F74A7B-C5D5-40AF-80A5-3B3E302CBAB6.png)</p>
+<p>5.结合主观赋权法求lambda 得到权重(AHP或其他需要方法,需要求权重的部分用熵权法求):</p>
+<p>![A530CEF3-041F-478F-AFCF-938365F2B678](/Users/zhiyizhou/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/2579016304/QQ/Temp.db/A530CEF3-041F-478F-AFCF-938365F2B678.png)</p>
+<p>6.计算综合评分:</p>
+<p>![3DC8FA90-CB5F-4623-85E3-2AA126B23982](/Users/zhiyizhou/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/2579016304/QQ/Temp.db/3DC8FA90-CB5F-4623-85E3-2AA126B23982.png)</p>
+<p>按照F由大到小对评价对象进行排序,大的更接近理想方案</p>
+<p>6.饮用Zadeh的定义计算空间距离:</p>
+<p>![6EB62E7B-BDBF-40B1-A55D-4130BA132203](/Users/zhiyizhou/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/2579016304/QQ/Temp.db/6EB62E7B-BDBF-40B1-A55D-4130BA132203.png)</p>
+<p>例题:设某图书馆有6种可供订选的科技期刊,选取4个评价指标进行熵权评价,采用专家打分法,得到由原始数据构成的指标水平矩阵如下:![D29A2A3A-ADCE-4A6C-92FE-EB15BF3D384C](/Users/zhiyizhou/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/2579016304/QQ/Temp.db/D29A2A3A-ADCE-4A6C-92FE-EB15BF3D384C.png)</p>
+<p>一般方法</p>
+<p>标准化处理之后得到如下矩阵:</p>
+<p>![2F0764F6-A53E-46B9-8CD0-9228DE385B50](/Users/zhiyizhou/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/2579016304/QQ/Temp.db/2F0764F6-A53E-46B9-8CD0-9228DE385B50.png)</p>
+<p>根据公示确定的4个指标的熵值:</p>
+<p>H1=0.8158.H2=0.8544,H3=0.8637,H4=0.8809</p>
+<p>计算得出各评价指标的权值如下表:</p>
+<p>![8D22BB08-B5EB-4D20-854B-E9E9B42FF51C](/Users/zhiyizhou/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/2579016304/QQ/Temp.db/8D22BB08-B5EB-4D20-854B-E9E9B42FF51C.png)</p>
+<p>综合得分结果:</p>
+<p>![DFEEA657-70BA-47C1-A582-CFB60E1FEE06](/Users/zhiyizhou/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/2579016304/QQ/Temp.db/DFEEA657-70BA-47C1-A582-CFB60E1FEE06.png)</p>
 
     </div>
 
@@ -261,13 +258,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/12/16/Regular_expression/" rel="prev" title="Regular_expression">
-      <i class="fa fa-chevron-left"></i> Regular_expression
+    <a href="/2021/01/07/A%20Star%20Search%20Algorithm%E5%8E%9F%E7%90%86%E5%8F%8A%E5%AE%9E%E7%8E%B0/" rel="prev" title="A Star Search Algorithm原理及实现">
+      <i class="fa fa-chevron-left"></i> A Star Search Algorithm原理及实现
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2021/01/07/A%20Star%20Search%20Algorithm%E5%8E%9F%E7%90%86%E5%8F%8A%E5%AE%9E%E7%8E%B0/" rel="next" title="A Star Search Algorithm原理及实现">
-      A Star Search Algorithm原理及实现 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
