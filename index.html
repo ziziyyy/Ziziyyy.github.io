@@ -148,6 +148,220 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://ziziyyy.github.io/2021/02/04/[%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1%E7%AC%94%E8%AE%B0]%E5%AF%B9%E7%AD%96%E8%AE%BA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="ziziyyy">
+      <meta itemprop="description" content="没有人不比我懂写代码">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="没有人比我更不懂写代码-zzy的垃圾生产站">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/02/04/%5B%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1%E7%AC%94%E8%AE%B0%5D%E5%AF%B9%E7%AD%96%E8%AE%BA/" class="post-title-link" itemprop="url">[数学建模笔记]对策论</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2021-02-04 16:19:50 / Modified: 16:55:46" itemprop="dateCreated datePublished" datetime="2021-02-04T16:19:50+08:00">2021-02-04</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><strong>1.对策论</strong></p>
+<p>​    社会及经济的发展带来了人与人之间或团体之间的竞争及矛盾，应用科学的方法来 解决这样的问题开始于 17 世纪的科学家，如 C.，Huygens 和 W.，Leibnitz 等。现代对 策论起源于 1944 年 J.，Von Neumann 和 O.，Morgenstern 的著作《Theory of Games and Economic Behavior》。</p>
+<p>​    对策论亦称竞赛论或博弈论。是研究具有斗争或竞争性质现象的数学理论和方法。 一般认为，它既是现代数学的一个新分支，也是运筹学中的一个重要学科。对策论发展 的历史并不长，但由于它所研究的现象与人们的政治、经济、军事活动乃至一般的日常 生活等有着密切的联系，并且处理问题的方法又有明显特色。所以日益引起广泛的注意。</p>
+<p>​    在日常生活中，经常看到一些具有相互之间斗争或竞争性质的行为。具有竞争或对 抗性质的行为称为对策行为。在这类行为中。参加斗争或竞争的各方各自具有不同的目 标和利益。为了达到各自的目标和利益，各方必须考虑对手的各种可能的行动方案，并 力图选取对自己最为有利或最为合理的方案。对策论就是研究对策行为中斗争各方是否 存在着最合理的行动方案，以及如何找到这个合理的行动方案的数学理论和方法。</p>
+<p><strong>2.对策问题</strong></p>
+<p>​    对策问题的特征是参与者为利益相互冲突的各方，其结局不取决于其中任意一方的努力而是各方所采取的策略的综合结果。</p>
+<p>先考察一个实际例子。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>嫌疑犯 B</th>
+<th>供认        不供认</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>嫌疑犯A</td>
+<td>供认</td>
+<td>（3，3） （7，0）</td>
+</tr>
+<tr>
+<td></td>
+<td>不供认</td>
+<td>（0，7） （1.5，1.5）</td>
+</tr>
+</tbody></table>
+<p>表 1 中每对数字表示嫌疑犯 A、B 被判刑的年数。如果两名疑犯均担心对方供认并希 望受到最轻的惩罚，最保险的办法自然是承认制造了伪币。</p>
+<p>从这一简单实例中可以看出对策现象中包含有的几个基本要素。</p>
+<p><strong>2.1 对策的基本要素</strong></p>
+<p>（i）局中人</p>
+<p>在一个对策行为（或一局对策）中，有权决定自己行动方案的对策参加者，称为局 中人。通常用 I 表示局中人的集合．如果有 n 个局中人，则 I = {1,2,L, n} 。一般要求 一个对策中至少要有两个局中人。在例 1 中，局中人是 A、B 两名疑犯。</p>
+<p>（ii）策略集</p>
+<p>一局对策中，可供局中人选择的一个实际可行的完整的行动方案称为一个策略。参 加对策的每一局中人 i ， i ∈ I ，都有自己的策略集 S i 。一般，每一局中人的策略集中 至少应包括两个策略。</p>
+<p>（iii）赢得函数（支付函数） 在一局对策中，各局中人所选定的策略形成的策略组称为一个局势，即若 s i 是第 i 个局中人的一个策略，则 n 个局中人的策略组</p>
+<p>s = ( s 1 , s 2 ,L, s n )</p>
+<p>就是一个局势。全体局势的集合 S 可用各局中人策略集的<strong>笛卡尔积</strong>表示，即</p>
+<p>S = S 1 × S 2 ×L× Sn </p>
+<p><strong>笛卡尔积</strong>:<strong>笛卡尔积是指在数学中,两个集合X和Y的笛卡尔积(Cartesian product),又称直积,表示为X x Y,第一个对象是X的成员而第二个对象是Y的所有可能有序对的其中一个成员.</strong></p>
+<p>(类似的例子有,A表示某学校学生的集合,B表示该学校所有课程的集合,则A与B的笛卡尔积表示该学校所有学生的可能选课情况.)</p>
+<p>假设集合A={a.b} B={0,1,2}则两个集合的笛卡尔积为{(a,0,(a,1),(1,2),(b,0),(b,1),(b,2)}.</p>
+<p>当局势出现后，对策的结果也就确定了。也就是说，对任一局势， s ∈ S ，局中人 i 可以得到一个赢得 H i ( s ) 。显然， H i ( s ) 是局势 s 的函数，称之为第 i 个局中人的赢</p>
+<p>得函数。这样，就得到一个向量赢得函数 H ( s ) = ( H 1 ( s ),…, H n ( s )) 。 本节我们只讨论有两名局中人的对策问题，其结果可以推广到一般的对策模型中去。</p>
+<p><strong>2.2 零和对策（矩阵对策）</strong></p>
+<p>零和对策是一类特殊的对策问题。在这类对策中，只有两名局中人，每个局中人都只有有限个策略可供选择。<strong>在任一纯局势下，两个局中人的赢得之和总是等于零，即双方的利益是激烈对抗的。</strong></p>
+<p>设局中人Ⅰ、Ⅱ的策略集分别为</p>
+<p>S 1 = {α 1 ,…, α m } ， S 2 = {β 1 ,…, β n }</p>
+<p>当局中人Ⅰ选定策略 α i 和局中人Ⅱ选定策略 β j 后，就形成了一个局势 (α i , β j ) ，可见</p>
+<p>这样的局势共有 mn 个。对任一局势 (α i , β j ) ，记局中人Ⅰ的赢得值为 a ij ，并称</p>
+<p> A= </p>
+<p>⎡ a 11 a 12 L a 1 n ⎤ </p>
+<p>⎢ a 21 a 22 L a 2 n ⎥</p>
+<p>⎢ ⎥ ⎢.. .. .. ..⎥ ⎢ ⎥</p>
+<p> ⎣ a m 1 a m 2 L a mn ⎦</p>
+<p>为局中人Ⅰ的<strong>赢得矩阵</strong>（或为局中人<strong>Ⅱ的支付矩阵</strong>）。由于假定对策为零和的，故局中 人<strong>Ⅱ的赢得矩阵就是 − A</strong> 。 当局中人Ⅰ、Ⅱ和策略集 S 1 、 S 2 及局中人Ⅰ的赢得矩阵 A 确定后，一个零和对策 就给定了，零和对策又可称为矩阵对策并可简记成</p>
+<p>例</p>
+<p>G = {S 1 , S 2 ; A} 。</p>
+<p>2</p>
+<p>设 有 一 矩 阵 对 策 G = {S 1 , S 2 ; A} ， 其 中 S 1 = {α 1 , α 2 , α 3 } ，</p>
+<p>S 2 = {β 1 , β 2 , β 3 , β 4 } ，</p>
+<p> A =⎡ 12  − 6  30 − 22 ⎤</p>
+<pre><code>⎢14  2  18  10 ⎥ </code></pre><p>​        ⎢ − 6  0 − 10 16 ⎦ </p>
+<p>从 A 中可以看出，若局中人Ⅰ希望获得最大赢利 30，需采取策略 α 1 ，但此时若局 中人Ⅱ采取策略 β 4 ，局中人Ⅰ非但得不到 30，反而会失去 22。为了稳妥，双方都应考 虑到对方有使自己损失最大的动机，在最坏的可能中争取最好的结果，局中人Ⅰ采取策 略 α1 、α2 、α 3 时，最坏的赢得结果分别为</p>
+<p>min{12,−6,30,−22} = −22</p>
+<p>min{14,2,18,10} = 2</p>
+<p>min{−6,0,−10,16} = −10</p>
+<p>其中最好的可能为 max{−22,2,−10} = 2 。如果局中人Ⅰ采取策略 α 2 ，无论局中人Ⅱ 采取什么策略，局中人Ⅰ的赢得均不会少于 2。</p>
+<p>x{30,18,−10} = 30 ，和 max{−22,10,16} = 16 。当局中人Ⅱ采取策略 β 2时，其损</p>
+<p>局中人Ⅱ采取各方案的最大损失为 max{12,14,−6} = 14 ， max{−6,2,0} = 2 ，</p>
+<p>失不会超过 2。注意到在赢得矩阵中，2 既是所在行中的最小元素又是所在列中的最大 元素。此时，只要对方不改变策略，任一局中人都不可能通过变换策略来增大赢得或减 少损失，称这样的局势为对策的一个稳定点或稳定解。</p>
+<p>定义 1 设 f ( x, y ) 为一个定义在 x ∈ A 及 y ∈ B 上的实值函数，如果存在 x* ∈ A ， y* ∈ B ，使得对一切 x ∈ A 和 y ∈ B ，有</p>
+<p>f ( x, y<em>) ≤ f ( x</em>, y<em>) ≤ f ( x</em>, y )</p>
+<p>则称 ( x<em>, y</em>) 为函数 f 的一个<strong>鞍点</strong>。</p>
+<p>定义</p>
+<p>2</p>
+<p>设 G = {S 1 , S 2 ; A} 为 矩 阵 对 策 ， 其 中 S 1 = {α 1 , α 2 ,L, α m } ，</p>
+<p>S 2 = {β 1 , β 2 ,L, β n } ， A = ( a ij ) m × n 。若等式</p>
+<p><strong>max min a ij = min max a ij = ai * j *  i j j i            (1)</strong></p>
+<p>成立，记 V G = a i * j * ，则称 V G 为对策 G 的值，称使（1）式成立的纯局势 (α i * , β j * ) 为</p>
+<p>对策 G 的鞍点或稳定解，赢得矩阵中与 (α i * , β j * ) 相对应的元素 a i * j * 称为赢得矩阵的鞍</p>
+<p>点， α i * 与 β j * 分别称为局中人Ⅰ与Ⅱ的<strong>最优纯策略</strong>。</p>
+<p>给定一个对策 G ，如何判断它是否具有鞍点呢？为了回答这一问题，先引入下面 的极大极小原理:</p>
+<pre><code>定理 1 设 G = {S 1 , S 2 ; A} ， 记 μ = max min a ij ， ν = − min max a ij ， 则必有 i j j i</code></pre><p>μ +ν ≤ 0 。</p>
+<p>证明:</p>
+<p>ν = max min( − a ij ) ，易见 μ 为Ⅰ的最小赢得，ν 为Ⅱ的最小赢得，由于 G</p>
+<p>j</p>
+<p>i</p>
+<p>是零和对策，故 μ + ν ≤ 0 必成立。 定理 2 零和对策 G 具有稳定解的充要条件为 μ + ν = 0 。 证明：（充分性）由 μ 和ν 的定义可知，存在一行例如 p 行， μ 为 p 行中的最小元 素，且存在一列例如 q 列， − ν 为 q 列中的最大元素。故有</p>
+<p>a pq ≥ μ 且 a pq ≤ −ν</p>
+<p>又因 μ + ν = 0 ，所以 μ = −ν ，从而得出 a pq = μ ， a pq 为赢得矩阵的鞍点， (α p , β q )</p>
+<p>为 G 的稳定解。 （必要性）若 G 具有稳定解 (α p , β q ) ，则 a pq 为赢得矩阵的鞍点。故有</p>
+<p>​    <strong>μ = max min a ij ≥ min a pj = apq  i j j</strong></p>
+<p>​    <strong>− ν = min max a ij≤ max a iq= apq</strong></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://ziziyyy.github.io/2021/02/04/%E5%9F%BA%E4%BA%8E%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9A%84%E6%83%85%E6%84%9F%E5%80%BE%E5%90%91%E8%A1%8C%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="ziziyyy">
+      <meta itemprop="description" content="没有人不比我懂写代码">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="没有人比我更不懂写代码-zzy的垃圾生产站">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/02/04/%E5%9F%BA%E4%BA%8E%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9A%84%E6%83%85%E6%84%9F%E5%80%BE%E5%90%91%E8%A1%8C%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95/" class="post-title-link" itemprop="url">基于机器学习的情感倾向行分析方法</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2021-02-04 16:19:07" itemprop="dateCreated datePublished" datetime="2021-02-04T16:19:07+08:00">2021-02-04</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="基于机器学习的情感分类方法"><a href="#基于机器学习的情感分类方法" class="headerlink" title="基于机器学习的情感分类方法"></a>基于机器学习的情感分类方法</h3><p>文本情感倾向性分析与传统的基于主题的文本分类相似但有所不同，基于主题的文本分类是把文本分类到各个预定义的主题上，如军事，互联网，政治，体育等，而情感分类不是基于内容本身的，而是按照文本持有的情感、态度进行判断。现有任何机器学习的分类方法都可以用到情感分类中来。基于机器学习的情感分类，其大致流程如下:首先人工标注文本倾向性作为训练集，提取文本情感特征，通过机器学习的方法构造情感分类器，待分类的文本通过分类器进行倾向性分类。常用的情感分类特征包括情感词，词性，句法结构，否定表达模板，连接，语义话题等［7］，研究者通过挖掘各种不同的特征以期望提高情感分类的能。常用的特征提取方法有信息增益( Information Gain，IG),CHI 统计量( Chi － square，CHI) 和文档频率( Document Frequency，DF) 等。常用的分类方法有中心向量分类方法、K － 近邻(K － Nearest － Neighbor，KNN) 分类方法、贝叶斯分类器、支持向量机、条件随机场、最大熵分类器等。<br>最早从事情感分析研究的 Pang 等人［8］使用词袋(Bag － of － Feature) 框架选定文本的 N 元语法( N －Gram) 和词性( POS) 等作为情感 uo 特征，使用有监督的机器学习的方法将电影评论分为正向和负向两类，分别使用朴素贝叶斯，最大熵模型和支持向量机作为有监督学习算法的分类器。结果显示支持向量机在几种分类方法中效果最好，分类准确率达到 80% 。文本情感分类的准确率难以达到普通文本分类的水平，主要是情感文本中复杂的情感表达和大量的情感歧义造成的。在基于机器学习的情感分类算法中，每篇文章被转换成一个对应的特征向量来表示。特征选择的好坏将直接影响情感分析任务的性能。在 Pang 等人的研究基础上，后续研究主要是把情感分类作为一个特征优化任务［9－ 11］。随着语义特征信息的加入和训练语料库的发展，基于机器学习的分类将会有广阔的发展前景。</p>
+<h3 id="情感检索"><a href="#情感检索" class="headerlink" title="情感检索"></a>情感检索</h3><p>情感检索是从海量文本中查询到观点信息，根据主题相关度和观点倾向性对结果排序。情感检索返回的结果要同时满足主题相关和带有情感倾向或指定的情感倾向，是比情感分类更为复杂的任务。主题相关度和观点倾向性对结果排序，随着人们网络检索需求的增高，在传统搜索中加入情感倾向成了搜索技术中一个新的研究热点。和传统的互联网搜索相似，情感检索有两个主要任务:(1) 检索和查询相关的文档或句子。(2)对检索的相关文档或句子进行排序。与传统搜索不同的是互联网搜索的任务只要求找到和查询相关的文档和句子，而情感检索还要确定文档和句子是否表达了观点，以及观点是正面的或是负面的。目前情感检索主要实现方法有两种:一是按传统信息检索模型进行主题相关的文档检索，对检索结果进行情感分类;另一种是同时计算主题相关值和情感倾向值进行检索。第一种方法一般使用传统的检索模型以及较为成熟的查询扩展技术，然后用情感分类方法进行倾向性计<br>算。文献［12 ～ 13］给出的情感检索系统是国际文本检索会议 TＲEC(Text Ｒetrieval Evaluation Conference)博客观点搜索任务的优胜者，该系统分为两部分检索部分和观点分类部分。检索部分完成传统的信息检索任务，同时在处理用户查询时将用户查询中的概念进行识别和消歧义，对于每个搜索查询进行同义词扩展，使用概念和关键字针对扩展后的查询对每个文档计算一个相似度，查询的关键字和文档的相关度是这两种相似度的综合。观点分类部分使用监督学习的方法使用两个分类器将文档分为两个类别带观点和不带观点的，带观点的文档再分为正面，负面或者混合的观点。第一个分类器训练数据是从评价网站包括 rateilt-<br>all. com 和 epinion. com 收集大量带观点的数据和从维基百科等客观性网站收集不带观点的训练数据。第二个分类器训练数据来自评论网站包含打分的评论，低的打分表明负面观点，高的打分表明正面观点。这里两种监督学习的分类器都采用支持向量机。在 TＲEC博客检索数据集研究的基础上，研究者采用不同的情感分类方法开展了后续研究［14 － 16］。</p>
+<p>上面的方法是将检索和情感分类独立计算的，实际中主题相关和情感匹配是有关联的，需要同时计算主题相关和情感匹配，这是因为不同的情感词在文档中对不同的查询词下可能有相反的情感倾向。第二种方法则是同时考虑主题相关和情感文档排序，选择排序策略时需要同时兼顾。很多学者［17 － 18］对排序策略进行了研究，一般是分别计算情感倾向值和查询相关度值，然后加权求和进行排序。Zhang 等人［19］提出一种融合文档情感得分和文档查询相关度得分的概率生成模型排序方法，取得了理想的效果。<br>情感信息检索是传统信息检索技术和情感分析技术的融合，如何更好的融合二者得到理想的情感检索结果是未来要重点关注的。</p>
+<h1 id="情感抽取"><a href="#情感抽取" class="headerlink" title="情感抽取"></a>情感抽取</h1><p>情感抽取是指抽取情感文本中有价值的情感信息，其要判断一个单词或词组在情感表达中扮演的角色，包括情感表达者识别，评价对象识别，情感观点词识别等任务。情感表达者识别又称观点持有者抽取，其是观点、评论的隶属者。在社交媒体和产品评论中，观点持有者通常是文本的作者或者评论员，其的登录账号是可见的，观点持有者抽取比较简单。而对于新闻文章和其他一些表达观点的任务或者组织显式的出现在文档时，观点持有者一般则是由机构名或人名组成，所以可采用命名实体识别方法进行抽取。Kim［20］等人借助语义角色标注来完成观点持有者的抽取。然而这些处理方法会导致较低的语言覆盖现象和较差的领域适应性，可以通过基于模式识别的信息抽取 ( Information Extraction) 和 机 器 学 习 ( Machine Learning )技 术 来解决［21］。评价对象和情感词抽取在情感分析中具有重要作用。利用评价对象和情感词的抽取，可以构建领域相关的主题词表和情感词表，情感词表的构建在情感分类部分已做阐述。评价对象是指某段评论中的主题，是评论文本中评价词语修饰的对象，现有的研究大多<br>将评价对象限定在名词或名词短语的范畴内，一般使用基于模板和规则的方法抽取评价对象。规则的制定通常基于一系列的语言分析和预处理过程，命名实体识别，词性标注和句法分析等方法［22 － 25］都被用来进行评价对象抽取。文献［26］便是使用 3 条限制等级逐渐渐进的词性规则从评价对象集中抽取评价对象，取得了较好的结果。<br>情感抽取是情感分析的基础任务，通过对大量的情感文本分析，有价值的情感信息抽取对于情感分析的上层任务情感检索和情感分类有直接帮助，如何准确抽取情感信息一直都是研究者关注的重点。</p>
+<p>文本情感分析评测</p>
+<p>近年来，情感分析得到了越来越多研究机构和学者的关注，在 SIGIＲ、ACL、WWW、CIKM、WSDM 等著名国际会议上，针对这一问题的研究成果层出不穷［27］，国内外研究机构组织了众多相关评测来推动情感分析技术的发展。</p>
+<p>由国际文本检索会议 TＲEC 针对英文文本观点检索任务的博客检索任务(Blog Track)，篇章情感分类任务，以及其他一些有趣的情感分析任务;由日本国立信息学研究所主办的搜索引擎评价国际会议 NTCIＲ(NIITest Collection for IＲ Systems) 针对日、韩、英、中文文本的情感分类以及观点持有者抽取任务。由中文信息学会信息检索委员会主办的每年一次的中文倾向性分析评测 C<br>OAE(Chinese Opinion Analysis Evaluation) 已举办了 5 届，在关注情感词语和观点句子的抽取以及倾向性识别的基础上重点对于否定句、比较句以及微博观点句进行评测［28］。众多研究机构的评测推动了情感分析研究的发展，出现了很多有代表性的情感分析语料库资源，文献［29 ～ 30］对语料库构建进行了详细阐述，如康奈尔影评数据集(Cornell Movie － Ｒeview Datasets)，多视角问答( Multiple － Perspective Question Answering，MPQA)语料库，TＲEC 测试集，NTCIＲ 多语言语料库(<br> NTCIＲmultilingual corpus)，中文 COAE 语料库等。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://ziziyyy.github.io/2021/02/01/%E3%80%90%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1%E7%AC%94%E8%AE%B0%E3%80%91%E7%86%B5%E6%9D%83%E6%B3%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -764,164 +978,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://ziziyyy.github.io/2020/10/29/%E3%80%90%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%87%AA%E5%AD%A6%E7%AC%94%E8%AE%B05%E3%80%91AdaBoost/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="ziziyyy">
-      <meta itemprop="description" content="没有人不比我懂写代码">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="没有人比我更不懂写代码-zzy的垃圾生产站">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/10/29/%E3%80%90%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%87%AA%E5%AD%A6%E7%AC%94%E8%AE%B05%E3%80%91AdaBoost/" class="post-title-link" itemprop="url">【机器学习自学笔记5】AdaBoost</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-10-29 19:18:55" itemprop="dateCreated datePublished" datetime="2020-10-29T19:18:55+08:00">2020-10-29</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-10-30 19:22:44" itemprop="dateModified" datetime="2020-10-30T19:22:44+08:00">2020-10-30</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>AdaBoost 是一种典型的集成学习算法，通过对多个弱学习器的集合，构成一个强学习器。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/10/29/%E3%80%90%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%87%AA%E5%AD%A6%E7%AC%94%E8%AE%B05%E3%80%91AdaBoost/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://ziziyyy.github.io/2020/10/29/%E3%80%90%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%87%AA%E5%AD%A6%E7%AC%94%E8%AE%B04%E3%80%91%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%88%86%E7%B1%BB%E5%99%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="ziziyyy">
-      <meta itemprop="description" content="没有人不比我懂写代码">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="没有人比我更不懂写代码-zzy的垃圾生产站">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/10/29/%E3%80%90%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%87%AA%E5%AD%A6%E7%AC%94%E8%AE%B04%E3%80%91%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%88%86%E7%B1%BB%E5%99%A8/" class="post-title-link" itemprop="url">【机器学习自学笔记4】朴素贝叶斯分类器</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-10-29 18:34:29 / Modified: 19:13:36" itemprop="dateCreated datePublished" datetime="2020-10-29T18:34:29+08:00">2020-10-29</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>贝叶斯分类是一类分类算法的总称，这类算法均以贝叶斯定理为基础，故统称为贝叶斯分类。而朴素贝叶斯分类是贝叶斯分类中最简单，也是常见的一种分类方法。</p>
-</blockquote>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/10/29/%E3%80%90%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%87%AA%E5%AD%A6%E7%AC%94%E8%AE%B04%E3%80%91%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%88%86%E7%B1%BB%E5%99%A8/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -991,7 +1047,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">64</span>
+          <span class="site-state-item-count">66</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
